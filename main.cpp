@@ -12,86 +12,14 @@
 #include "Core.h"
 #include "Root.h"
 #include "Primitive.h"
+#include "Array.h"
 
 namespace ObjectModel
 {
-    class Array : public Root
-    {
-    private:
-        int8_t type = 0;
-        int16_t count = 0;
-        std::vector<int8_t>* data = nullptr;
-    private:
-        Array();
-    public:
-        template <typename T>
-        // vector instead of arr, because we don't know the size at compile time
-        static Array *createArray(std::string name, PrimitiveTypes type, std::vector<T> &value)
-        {
-            Array *arr = new Array();
-            arr->setName(name);
-            arr->wrapperType = static_cast<int8_t>(WrapperTypes::ARRAY);
-            arr->type = static_cast<int8_t>(type);    
-        
-            arr->count = value.size();
-
-            arr->data = new std::vector<int8_t>(value.size() * sizeof (T));
-            arr->size += (value.size() * sizeof(T));
-
-            int16_t iter = 0;
-            Core::template encode(arr->data, &iter, value);
-
-            return arr;
-        }
-        static Array *createString(std::string name, std::string &value)
-        {
-            Array *str = new Array();
-            str->setName(name);
-            str->wrapperType = static_cast<int8_t>(WrapperTypes::STRING);
-            str->type = static_cast<int8_t>(PrimitiveTypes::I8);
-        
-            str->count = value.size();
-
-            str->data = new std::vector<int8_t>(value.size());
-            str->size += (value.size());
-
-            int16_t iter = 0;
-            Core::template encode(str->data, &iter, value);
-
-            return str;
-        }
-
-        void pack(std::vector<int8_t>*, int16_t*);
-    };
-
     class Object : public Root
     {
 
     };
-}
-
-namespace ObjectModel
-{
-    // definition
-
-
-
-    Array::Array()
-    {
-        size += sizeof(type);
-        size += sizeof(count);
-    }
-
-    void Array::pack(std::vector<int8_t>* buffer, int16_t* iterator)
-    {
-        Core::encode<std::string>(buffer, iterator, name);
-        Core::encode<int16_t>(buffer, iterator, nameLength);
-        Core::encode<int8_t>(buffer, iterator, wrapperType);
-        Core::encode<int8_t>(buffer, iterator, type);
-        Core::encode<int16_t>(buffer, iterator, count);
-        Core::encode<int8_t>(buffer, iterator, *data);
-        Core::encode<int32_t>(buffer, iterator, size);
-    }
 }
 
 namespace EventSystem
