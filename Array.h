@@ -40,6 +40,8 @@ namespace ObjectModel
             Array *str = new Array();
             str->setName(name);
             str->wrapperType = static_cast<int8_t>(WrapperTypes::STRING);
+            // NOTE: sizeof(char) is guaranteed by the standard (§5.3.3/1) to be 1 byte
+            // (like signed char and unsigned char), so it's alright to hard-code to I8
             str->type = static_cast<int8_t>(PrimitiveTypes::I8);
         
             str->count = value.size();

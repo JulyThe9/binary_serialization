@@ -24,7 +24,7 @@ namespace ObjectModel
 
     void Root::pack(std::vector<int8_t>*, int16_t*) 
     {
-        // might be implemented later
+        // TODO: might be implemented later
     }
 
     int32_t Root::getSize()

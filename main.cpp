@@ -1,11 +1,9 @@
 #include <iostream>
 #include <vector>
-#include <bitset>
-#include <assert.h>
 #include <fstream>
 #include <cfloat>
 #include <string>
-
+#include <assert.h>
 #include <cstdint>
 
 #include "Types.h"
@@ -15,6 +13,11 @@
 #include "Array.h"
 #include "Object.h"
 
+static uint64_t generateID()
+{
+    static uint64_t id = 1;
+    return id++;
+}
 
 namespace EventSystem
 {
@@ -51,12 +54,18 @@ namespace EventSystem
             TOUCHPAD,
             JOYSTICK
         };
+        // TODO: why public?
         DeviceType dType;
         System *system = nullptr;
+    private:
+        uint64_t ID = 0;
     public:
         Event(DeviceType);
         const DeviceType getDType() const;
-        
+        const uint64_t getID() const;
+        void bind(System*, Event*);
+        /*virtual*/ void serialize(ObjectModel::Object *);
+
         // TODO: why does it say "too many arguments" unless specified as friend?
         friend std::ostream &operator<<(std::ostream &stream, const DeviceType dType)
         {
@@ -72,8 +81,6 @@ namespace EventSystem
             }
             return stream << result;
         }
-
-        void bind(System*, Event*);
     };
 
     class KeyboardEvent : public Event
@@ -84,6 +91,7 @@ namespace EventSystem
         bool released;
     public:
         KeyboardEvent(int8_t, bool, bool);
+        void serialize(ObjectModel::Object *);
     };
 
     // definition
@@ -118,12 +126,44 @@ namespace EventSystem
 
     void System::serialize()
     {
+        ObjectModel::Object *system = new ObjectModel::Object("SysInfo");
 
+        ObjectModel::Array *nameArr = ObjectModel::Array::createString("sysName", this->name);
+        ObjectModel::Primitive *descPrim = ObjectModel::Primitive::create<int32_t>("desc", ObjectModel::PrimitiveTypes::I32, this->descriptor); 
+        ObjectModel::Primitive *indexPrim = ObjectModel::Primitive::create<int16_t>("index", ObjectModel::PrimitiveTypes::I16, this->index);
+        // NOTE: sizeof(bool) not defined by the standard, so let type deduction do its job
+        ObjectModel::Primitive *activePrim = ObjectModel::Primitive::create("active", ObjectModel::PrimitiveTypes::BOOL, this->active);
+
+        system->addEntity(nameArr);
+        system->addEntity(descPrim);
+        system->addEntity(indexPrim);
+        system->addEntity(activePrim);
+
+        for (Event *event : events)
+        {
+            // NOTE: not safe, but so far I am working with keyboard events only, for now
+            KeyboardEvent *kbEvent = static_cast<KeyboardEvent*>(event);
+            ObjectModel::Object *eventObject = new ObjectModel::Object("Event: " + std::to_string(event->getID()));
+            kbEvent->serialize(eventObject);
+            system->addEntity(eventObject);
+        }
+        Core::Util::retrieveAndSave(system);
     }
 
     Event::Event(DeviceType dType)
     {
         this->dType = dType;
+        this->ID = generateID();
+    }
+
+    const Event::DeviceType Event::getDType() const
+    {
+        return this->dType;
+    }
+
+    const uint64_t Event::getID() const
+    {
+        return ID;
     }
 
     void Event::bind(System* system, Event* e)
@@ -132,9 +172,15 @@ namespace EventSystem
         this->system->events.push_back(e);
     }
 
-    const Event::DeviceType Event::getDType() const
+    void Event::serialize(ObjectModel::Object *obj)
     {
-        return this->dType;
+        assert(obj);
+
+        ObjectModel::Primitive *dTypePrim = ObjectModel::Primitive::create<int8_t>("dType", ObjectModel::PrimitiveTypes::I64, static_cast<int8_t>(this->dType));
+        ObjectModel::Primitive *idPrim = ObjectModel::Primitive::create<uint64_t>("ID", ObjectModel::PrimitiveTypes::U64, this->getID());
+        
+        obj->addEntity(dTypePrim);
+        obj->addEntity(idPrim);
     }
 
     KeyboardEvent::KeyboardEvent(int8_t keyCode, bool pressed, bool released)
@@ -144,17 +190,30 @@ namespace EventSystem
         pressed(pressed),
         released(released)
         {}
+
+    void KeyboardEvent::serialize(ObjectModel::Object *obj)
+    {
+        assert(obj);    
+        Event::serialize(obj);
+
+        ObjectModel::Primitive *keyCodePrim = ObjectModel::Primitive::create<int16_t>("keyCode", ObjectModel::PrimitiveTypes::I16, this->keyCode);
+        ObjectModel::Primitive *pressedPrim = ObjectModel::Primitive::create("pressed", ObjectModel::PrimitiveTypes::BOOL, this->pressed);
+        ObjectModel::Primitive *releasedPrim = ObjectModel::Primitive::create("released", ObjectModel::PrimitiveTypes::BOOL, this->released);
+
+        obj->addEntity(keyCodePrim);
+        obj->addEntity(pressedPrim);        
+        obj->addEntity(releasedPrim);        
+    }
 }
 
 using namespace EventSystem;
 
 int main(int argc, char* argv[]) // equivalent to char** argv
 {
-    assert(true);
-
     (void)argc;
     (void)argv;
 
+#if 0
     ObjectModel::Primitive *prim = 
         ObjectModel::Primitive::create<int32_t>("int32", ObjectModel::PrimitiveTypes::I32, 10); //76745);    
     Core::Util::retrieveAndSave(prim);
@@ -180,15 +239,15 @@ int main(int argc, char* argv[]) // equivalent to char** argv
 
     objExt->addEntity(objInt);
     Core::Util::retrieveAndSave(objExt);
+#endif
 
-#if 0
+#if 1
     System Foo("Foo");
     Event *e = new KeyboardEvent('a', true, false);
-
     Foo.addEvent(e);
 
     KeyboardEvent *kb = static_cast<KeyboardEvent*>(Foo.getEvent());
-|
+
     Foo.serialize();
 #endif
     return 0;
