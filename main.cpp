@@ -53,22 +53,20 @@ namespace EventSystem
     private:
         uint64_t ID = 0;
         DeviceType dType;
-        System *system = nullptr;
     public:
         Event(const DeviceType);
+        virtual ~Event();
         const DeviceType getDType() const;
         const uint64_t getID() const;
         
         /*virtual*/ void serialize(ObjectModel::Object *);
 
-        // TODO: why does it say "too many arguments" unless specified as friend?
         friend std::ostream &operator<<(std::ostream &stream, const DeviceType dType)
         {
             std::string result;
 #define PRINT(a) result = #a; // C++ preprocessor macro: stringify
             switch(dType)
             {
-                //TODO: why does prepending DeviceType:: remove the error?
                 case DeviceType::KEYBOARD: PRINT(KEYBOARD); break;
                 case DeviceType::MOUSE: PRINT(MOUSE); break;
                 case DeviceType::TOUCHPAD: PRINT(TOUCHPAD); break;
@@ -86,6 +84,7 @@ namespace EventSystem
         bool released;
     public:
         KeyboardEvent(const int8_t, const bool, const bool);
+        ~KeyboardEvent();
         void serialize(ObjectModel::Object *);
     };
 
@@ -98,7 +97,12 @@ namespace EventSystem
 
     System::~System()
     {
-        // TODO:
+        std::cout << "System dtor called\n";
+        for (size_t i = 0; i < events.size(); i++)
+        {
+            delete events[i];
+        }
+        events.clear();
     }
 
     void System::addEvent(Event *e)
@@ -150,6 +154,11 @@ namespace EventSystem
         this->ID = generateID();
     }
 
+    Event::~Event() 
+    {
+        std::cout << "Event dtor called\n";
+    }
+
     const Event::DeviceType Event::getDType() const
     {
         return this->dType;
@@ -178,6 +187,11 @@ namespace EventSystem
         pressed(pressed),
         released(released)
         {}
+
+    KeyboardEvent::~KeyboardEvent()
+    {
+        std::cout << "Keyboard event dtor called\n";
+    }
 
     void KeyboardEvent::serialize(ObjectModel::Object *obj)
     {
