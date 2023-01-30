@@ -9,6 +9,8 @@ namespace ObjectModel
     class Object : public Root
     {
     private:
+        // TODO: EITHER write a destructor and delete entities OR
+        // replace all raw pointers with smart pointers
         std::vector<Root*> entities;
         int16_t count = 0;
     public:
