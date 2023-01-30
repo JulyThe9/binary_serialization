@@ -91,7 +91,7 @@ namespace EventSystem
     // definition
     System::System(const std::string &name) :
         name(name),
-        descriptor(123),
+        descriptor(76745),
         index(1),
         active(true) {}
 

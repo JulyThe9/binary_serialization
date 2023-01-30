@@ -54,12 +54,10 @@ namespace Core
     void encode(std::vector<int8_t> *buffer, int16_t *iterator, T value)
     {
         if (buffer == nullptr || iterator == nullptr)
-        {
             return;
-        }
+            
         for (size_t i = 0; i < sizeof(T); ++i)
         {
-            // (*buffer)[(*iterator)++] = value >> ((sizeof(T) * 8 - 8) - ((i==0) ? j : j += 8) ); 
             (*buffer)[(*iterator)++] = value >> ((sizeof(T) * 8 - 8) - i*8); 
         }
     }

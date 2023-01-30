@@ -36,7 +36,7 @@ namespace ObjectModel
 
             int16_t iter = 0;
             
-            //Core::encode<T>(p->data, &iter, value); // TODO: why not this one?
+            //TODO: Core::encode<T>(p->data, &iter, value); // TODO: why not this one?
             Core::template encode(p->data, &iter, value);
 
             return p;
