@@ -13,14 +13,8 @@
 #include "Root.h"
 #include "Primitive.h"
 #include "Array.h"
+#include "Object.h"
 
-namespace ObjectModel
-{
-    class Object : public Root
-    {
-
-    };
-}
 
 namespace EventSystem
 {
@@ -161,13 +155,13 @@ int main(int argc, char* argv[]) // equivalent to char** argv
     (void)argc;
     (void)argv;
 
-    ObjectModel::Primitive *p = 
+    ObjectModel::Primitive *prim = 
         ObjectModel::Primitive::create<int32_t>("int32", ObjectModel::PrimitiveTypes::I32, 10); //76745);    
-    Core::Util::retrieveAndSave(p);
+    Core::Util::retrieveAndSave(prim);
 
     std::vector<int32_t> vect = {1,3,5,7};
     ObjectModel::Array *arr = 
-        ObjectModel::Array::createArray<int32_t>("int1234567", ObjectModel::PrimitiveTypes::I32, vect);
+        ObjectModel::Array::createArray<int32_t>("array", ObjectModel::PrimitiveTypes::I32, vect);
     Core::Util::retrieveAndSave(arr);
 
     std::string str = "Hello world!";
@@ -175,6 +169,17 @@ int main(int argc, char* argv[]) // equivalent to char** argv
         ObjectModel::Array::createString("strArr", str);
     Core::Util::retrieveAndSave(strArr);
 
+    ObjectModel::Object *objExt = new ObjectModel::Object("ObjExternal");
+    objExt->addEntity(prim);
+    objExt->addEntity(arr);
+    objExt->addEntity(strArr);
+
+    ObjectModel::Object *objInt = new ObjectModel::Object("ObjInternal");
+    objInt->addEntity(prim);
+    Core::Util::retrieveAndSave(objInt);
+
+    objExt->addEntity(objInt);
+    Core::Util::retrieveAndSave(objExt);
 
 #if 0
     System Foo("Foo");
