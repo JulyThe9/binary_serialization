@@ -19,8 +19,8 @@ namespace ObjectModel
         Object(const std::string &);
         ~Object();
     public:
-        void addEntity(Root *const r);
-        Root *findByName(const std::string &) const;
+        void addEntity(Root *r);
+        Root *findByName(const std::string &);
         void pack(std::vector<int8_t> *, int16_t *) override;
     };
 }

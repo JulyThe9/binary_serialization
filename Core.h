@@ -37,7 +37,7 @@ namespace Core
         }
     }
 
-    // Has likely NOTHING to do with endianness, 
+    // Has likely nothing to do with endianness, 
     // but with binary representation of integral types
 
     // 0000 0000 0000 0001 0010 1011 1100 1001
@@ -46,8 +46,6 @@ namespace Core
     // 0000 0000 0000 0000 0000 0000 0000 0001
     // 0000 0000 0000 0000 0000 0001 0010 1011
     
-    // 1 byte 8 bit
-    // 0000 0000
     // 1 byte 2 hexadecimal digit
     // 1 hexadecimal digit 4 binary digits
     // 0000 0000
@@ -90,7 +88,7 @@ namespace Core
     }
 
     template<typename T>
-    void encode(std::vector<int8_t> *buffer, int16_t *iterator, std::vector<T> &value)
+    void encode(std::vector<int8_t> *buffer, int16_t *iterator, const std::vector<T> &value)
     {
         for (int i = 0; i < value.size(); i++)
         {

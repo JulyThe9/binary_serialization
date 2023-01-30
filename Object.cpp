@@ -26,7 +26,7 @@ namespace ObjectModel
         size += r->getSize();
     }
 
-    Root *Object::findByName(const std::string &name) const
+    Root *Object::findByName(const std::string &name)
     {
         for (auto ent : entities)
         {
