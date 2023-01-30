@@ -39,7 +39,7 @@ namespace ObjectModel
             return arr;
         }
         // TODO: Why does this not cause 'already defined' without inline?
-        static Array *createString(std::string name, std::string &value)
+        static Array *createString(std::string name, const std::string &value)
         {
             Array *str = new Array();
             str->setName(name);

@@ -11,8 +11,6 @@ namespace ObjectModel
     class Object : public Root
     {
     private:
-        // TODO: EITHER write a destructor and delete entities OR
-        // replace all raw pointers with smart pointers
         std::vector<Root*> entities;
         int16_t count = 0;
     public:
@@ -20,6 +18,7 @@ namespace ObjectModel
         ~Object();
     public:
         void addEntity(Root *r);
+        // TODO: ideally should be a hashmap
         Root *findByName(const std::string &);
         void pack(std::vector<int8_t> *, int16_t *) override;
     };
