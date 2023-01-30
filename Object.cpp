@@ -19,14 +19,14 @@ namespace ObjectModel
         entities.clear();
     }
 
-    void Object::addEntity(Root *const r)
+    void Object::addEntity(Root *r)
     {
         entities.push_back(r);
         count++;
         size += r->getSize();
     }
 
-    Root* Object::findByName(const std::string &name)
+    Root *Object::findByName(const std::string &name) const
     {
         for (auto ent : entities)
         {
@@ -38,7 +38,7 @@ namespace ObjectModel
         return nullptr;
     }
 
-    void Object::pack(std::vector<int8_t>* buffer, int16_t* iterator)
+    void Object::pack(std::vector<int8_t> *buffer, int16_t *iterator)
     {
         Core::encode<std::string>(buffer, iterator, name);
         Core::encode<int16_t>(buffer, iterator, nameLength);

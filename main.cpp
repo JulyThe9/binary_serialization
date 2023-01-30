@@ -17,7 +17,7 @@ static uint64_t generateID()
 
 namespace EventSystem
 {
-    class Event; // needed?
+    class Event; 
 
     class System
     {
@@ -30,10 +30,10 @@ namespace EventSystem
         bool active;
         std::vector<Event*> events;
     public:
-        System(std::string);
+        System(const std::string &);
         ~System();
     public:
-        void addEvent(Event*);
+        void addEvent(Event *);
         Event *getEvent();
         const bool isActive() const;
 
@@ -50,16 +50,15 @@ namespace EventSystem
             TOUCHPAD,
             JOYSTICK
         };
-        // TODO: why public?
-        DeviceType dType;
-        System *system = nullptr;
     private:
         uint64_t ID = 0;
+        DeviceType dType;
+        System *system = nullptr;
     public:
-        Event(DeviceType);
+        Event(const DeviceType);
         const DeviceType getDType() const;
         const uint64_t getID() const;
-        void bind(System*, Event*);
+        
         /*virtual*/ void serialize(ObjectModel::Object *);
 
         // TODO: why does it say "too many arguments" unless specified as friend?
@@ -86,12 +85,12 @@ namespace EventSystem
         bool pressed;
         bool released;
     public:
-        KeyboardEvent(int8_t, bool, bool);
+        KeyboardEvent(const int8_t, const bool, const bool);
         void serialize(ObjectModel::Object *);
     };
 
     // definition
-    System::System(std::string name) :
+    System::System(const std::string &name) :
         name(name),
         descriptor(123),
         index(1),
@@ -104,7 +103,7 @@ namespace EventSystem
 
     void System::addEvent(Event *e)
     {
-        e->bind(this, e);
+        events.push_back(e);
     }
 
     Event *System::getEvent()
@@ -145,7 +144,7 @@ namespace EventSystem
         delete system;
     }
 
-    Event::Event(DeviceType dType)
+    Event::Event(const DeviceType dType)
     {
         this->dType = dType;
         this->ID = generateID();
@@ -161,12 +160,6 @@ namespace EventSystem
         return ID;
     }
 
-    void Event::bind(System* system, Event* e)
-    {
-        this->system = system;
-        this->system->events.push_back(e);
-    }
-
     void Event::serialize(ObjectModel::Object *obj)
     {
         assert(obj);
@@ -178,7 +171,7 @@ namespace EventSystem
         obj->addEntity(idPrim);
     }
 
-    KeyboardEvent::KeyboardEvent(int8_t keyCode, bool pressed, bool released)
+    KeyboardEvent::KeyboardEvent(const int8_t keyCode, const bool pressed, const bool released)
         :
         Event(Event::DeviceType::KEYBOARD),
         keyCode(keyCode),
@@ -244,7 +237,7 @@ int main(int argc, char *argv[])
     KeyboardEvent *kb = static_cast<KeyboardEvent*>(Foo.getEvent());
 
     Foo.serialize();
-
 #endif
+
     return 0;
 }

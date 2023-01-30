@@ -17,10 +17,10 @@ namespace ObjectModel
     public:
         virtual ~Root() = 0;
     public:
-        int32_t getSize();
-        void setName(std::string);
-        std::string getName();
+        const int32_t getSize() const;
+        void setName(const std::string &);
+        const std::string &getName() const;
 
-        virtual void pack(std::vector<int8_t>*, int16_t*) = 0;
+        virtual void pack(std::vector<int8_t> *, int16_t *) = 0;
     };
 }

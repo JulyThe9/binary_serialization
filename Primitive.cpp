@@ -13,7 +13,7 @@ namespace ObjectModel
         delete data;
     }
 
-    void Primitive::pack(std::vector<int8_t>* buffer, int16_t* iterator)
+    void Primitive::pack(std::vector<int8_t> *buffer, int16_t *iterator)
     {
         Core::encode<std::string>(buffer, iterator, name);
         Core::encode<int16_t>(buffer, iterator, nameLength);

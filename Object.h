@@ -20,7 +20,7 @@ namespace ObjectModel
         ~Object();
     public:
         void addEntity(Root *const r);
-        Root *findByName(const std::string &);
-        void pack(std::vector<int8_t>*, int16_t*) override;
+        Root *findByName(const std::string &) const;
+        void pack(std::vector<int8_t> *, int16_t *) override;
     };
 }

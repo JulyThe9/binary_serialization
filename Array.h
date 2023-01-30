@@ -21,7 +21,7 @@ namespace ObjectModel
     public:
         template <typename T>
         // vector instead of arr, because we don't know the size at compile time
-        static Array *createArray(std::string name, PrimitiveTypes type, std::vector<T> &value)
+        static Array *createArray(const std::string &name, const PrimitiveTypes type, const std::vector<T> &value)
         {
             Array *arr = new Array();
             arr->setName(name);
@@ -59,6 +59,6 @@ namespace ObjectModel
             return str;
         }
 
-        void pack(std::vector<int8_t>*, int16_t*) override;
+        void pack(std::vector<int8_t> *, int16_t *) override;
     };
 }

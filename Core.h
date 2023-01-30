@@ -31,7 +31,7 @@ namespace Core
         {
             int16_t iterator = 0;
             std::vector<int8_t> buffer(r->getSize());
-            std::string name = r->getName().append(".abc");
+            std::string name = r->getName() + ".abc";
             r->pack(&buffer, &iterator);
             save(name.c_str(), buffer);
         }

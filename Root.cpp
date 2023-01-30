@@ -13,26 +13,19 @@ namespace ObjectModel
         std::cout << "Root dtor called\n";
     }
 
-    void Root::setName(std::string name)
+    void Root::setName(const std::string &name)
     {
         this->name = name;
-
-        // string.size() and string.length() are identical
-        // size is here to be consistent with other STL containers
-        // and length is here because it's natural to think about strings'
-        // size in term of length
-
-        // also not a pointer, so C-like cast is acceptable
         nameLength = (int16_t)name.length();
         size += nameLength;
     }
 
-    int32_t Root::getSize()
+    const int32_t Root::getSize() const
     {
         return size;
     }
 
-    std::string Root::getName()
+    const std::string &Root::getName() const
     {
         return name;
     }

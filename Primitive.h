@@ -24,7 +24,7 @@ namespace ObjectModel
         // named constructor, meaning that it resolves the problem of regular constructors
         // of the same name as the class, which become error-prone when there are many of those
         template <typename T>
-        static Primitive *create(std::string name, PrimitiveTypes type, T value)
+        static Primitive *create(const std::string &name, const PrimitiveTypes type, const T value)
         {
             Primitive *p = new Primitive();
             p->setName(name);
