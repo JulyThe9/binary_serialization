@@ -7,6 +7,12 @@ namespace ObjectModel
         size += sizeof(type);
     }
 
+    Primitive::~Primitive()
+    {
+        std::cout << "Primitive dtor called\n";    
+        delete data;
+    }
+
     void Primitive::pack(std::vector<int8_t>* buffer, int16_t* iterator)
     {
         Core::encode<std::string>(buffer, iterator, name);

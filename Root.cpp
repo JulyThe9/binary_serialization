@@ -8,6 +8,11 @@ namespace ObjectModel
         nameLength(0),
         size(sizeof nameLength + sizeof wrapperType + sizeof size) {}
 
+    Root::~Root()
+    {
+        std::cout << "Root dtor called\n";
+    }
+
     void Root::setName(std::string name)
     {
         this->name = name;

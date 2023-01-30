@@ -8,6 +8,13 @@ namespace ObjectModel
         size += sizeof(count);
     }
 
+    Array::~Array()
+    {
+        std::cout << "Array dtor called\n";
+        delete data;
+    }
+
+
     void Array::pack(std::vector<int8_t>* buffer, int16_t* iterator)
     {
         Core::encode<std::string>(buffer, iterator, name);

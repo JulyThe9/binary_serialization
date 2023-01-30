@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 #include "Types.h"
 #include "Root.h"
 #include "Core.h"
@@ -15,6 +17,7 @@ namespace ObjectModel
         int16_t count = 0;
     public:
         Object(const std::string &);
+        ~Object();
     public:
         void addEntity(Root *const r);
         Root *findByName(const std::string &);

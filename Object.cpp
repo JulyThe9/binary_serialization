@@ -9,6 +9,16 @@ namespace ObjectModel
         size += sizeof(count);
     }
 
+    Object::~Object()
+    {
+        std::cout << "Object dtor called\n";
+        for (size_t i = 0; i < entities.size(); i++)
+        {
+            delete entities[i];
+        }
+        entities.clear();
+    }
+
     void Object::addEntity(Root *const r)
     {
         entities.push_back(r);

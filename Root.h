@@ -2,6 +2,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 namespace ObjectModel
 {
@@ -14,6 +15,8 @@ namespace ObjectModel
         int32_t size;
     protected:
         Root();
+    public:
+        virtual ~Root() = 0;
     public:
         int32_t getSize();
         void setName(std::string);

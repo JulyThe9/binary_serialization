@@ -18,7 +18,9 @@ namespace ObjectModel
         // except for public static methods of this class
         Primitive();
     public:
-        // According to "Named Constructor Idiom", this is a so called
+        ~Primitive();
+    public:
+        // TODO: Is it? According to "Named Constructor Idiom", this is a so called
         // named constructor, meaning that it resolves the problem of regular constructors
         // of the same name as the class, which become error-prone when there are many of those
         template <typename T>

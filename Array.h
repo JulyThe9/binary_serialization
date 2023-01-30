@@ -15,6 +15,8 @@ namespace ObjectModel
     private:
         Array();
     public:
+        ~Array();
+    public:
         template <typename T>
         // vector instead of arr, because we don't know the size at compile time
         static Array *createArray(std::string name, PrimitiveTypes type, std::vector<T> &value)

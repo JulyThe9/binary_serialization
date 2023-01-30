@@ -148,6 +148,8 @@ namespace EventSystem
             system->addEntity(eventObject);
         }
         Core::Util::retrieveAndSave(system);
+
+        delete system;
     }
 
     Event::Event(DeviceType dType)
@@ -249,6 +251,7 @@ int main(int argc, char *argv[])
     KeyboardEvent *kb = static_cast<KeyboardEvent*>(Foo.getEvent());
 
     Foo.serialize();
+
 #endif
     return 0;
 }
