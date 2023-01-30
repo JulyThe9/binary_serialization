@@ -107,6 +107,7 @@ namespace EventSystem
 
     void System::addEvent(Event *e)
     {
+        assert(e);
         events.push_back(e);
     }
 
@@ -195,7 +196,6 @@ namespace EventSystem
 
     void KeyboardEvent::serialize(ObjectModel::Object *obj)
     {
-        assert(obj);    
         Event::serialize(obj);
 
         ObjectModel::Primitive *keyCodePrim = ObjectModel::Primitive::create<int16_t>("keyCode", ObjectModel::PrimitiveTypes::I16, this->keyCode);

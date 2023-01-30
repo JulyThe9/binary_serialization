@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <iostream>
+#include <assert.h>
 
 namespace ObjectModel
 {

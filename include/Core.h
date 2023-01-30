@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <vector>
+#include <assert.h>
 
 #include "Root.h"
 
@@ -11,6 +12,8 @@ namespace Core
     {
         inline void save(const char *file, const std::vector<int8_t> &buffer)
         {
+            assert(file);
+
             std::ofstream out;
 
             // std::ios::binary : remember the number 10 issue
@@ -29,6 +32,7 @@ namespace Core
         // save to file
         inline void retrieveAndSave(ObjectModel::Root *r)
         {
+            assert(r);
             int16_t iterator = 0;
             std::vector<int8_t> buffer(r->getSize());
             std::string name = r->getName() + ".abc";
@@ -53,9 +57,7 @@ namespace Core
     template <typename T>
     void encode(std::vector<int8_t> *buffer, int16_t *iterator, T value)
     {
-        if (buffer == nullptr || iterator == nullptr)
-            return;
-            
+        assert(buffer && iterator);            
         for (size_t i = 0; i < sizeof(T); ++i)
         {
             (*buffer)[(*iterator)++] = value >> ((sizeof(T) * 8 - 8) - i*8); 

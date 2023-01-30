@@ -17,6 +17,8 @@ namespace ObjectModel
 
     void Array::pack(std::vector<int8_t> *buffer, int16_t *iterator)
     {
+        assert(buffer && iterator);
+        
         Core::encode<std::string>(buffer, iterator, name);
         Core::encode<int16_t>(buffer, iterator, nameLength);
         Core::encode<int8_t>(buffer, iterator, wrapperType);
