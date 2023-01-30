@@ -59,7 +59,7 @@ namespace EventSystem
         const DeviceType getDType() const;
         const uint64_t getID() const;
         
-        /*virtual*/ void serialize(ObjectModel::Object *);
+        void serialize(ObjectModel::Object *);
 
         friend std::ostream &operator<<(std::ostream &stream, const DeviceType dType)
         {
