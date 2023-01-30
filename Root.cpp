@@ -21,12 +21,7 @@ namespace ObjectModel
         nameLength = (int16_t)name.length();
         size += nameLength;
     }
-
-    void Root::pack(std::vector<int8_t>*, int16_t*) 
-    {
-        // might be implemented later
-    }
-
+    
     int32_t Root::getSize()
     {
         return size;

@@ -188,7 +188,7 @@ int main(int argc, char* argv[]) // equivalent to char** argv
     Foo.addEvent(e);
 
     KeyboardEvent *kb = static_cast<KeyboardEvent*>(Foo.getEvent());
-|
+
     Foo.serialize();
 #endif
     return 0;

@@ -19,9 +19,6 @@ namespace ObjectModel
         void setName(std::string);
         std::string getName();
 
-        // when you add a virtual keyword to any method in a class,
-        // the size of the class become exactly 4 bytes larger,
-        // because it gets appended a pointer to the v-table
-        virtual void pack(std::vector<int8_t>*, int16_t*);
+        virtual void pack(std::vector<int8_t>*, int16_t*) = 0;
     };
 }

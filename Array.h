@@ -53,6 +53,6 @@ namespace ObjectModel
             return str;
         }
 
-        void pack(std::vector<int8_t>*, int16_t*);
+        void pack(std::vector<int8_t>*, int16_t*) override;
     };
 }

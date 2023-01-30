@@ -40,6 +40,6 @@ namespace ObjectModel
             return p;
         }
 
-        void pack(std::vector<int8_t>*, int16_t*);
+        void pack(std::vector<int8_t>*, int16_t*) override;
     };
 }
