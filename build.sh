@@ -1,2 +1,2 @@
 #!/bin/bash
-g++ main.cpp Root.cpp Primitive.cpp Array.cpp Object.cpp -o main.exe
+g++ -I./include src/main.cpp src/Root.cpp src/Primitive.cpp src/Array.cpp src/Object.cpp -o main.exe
