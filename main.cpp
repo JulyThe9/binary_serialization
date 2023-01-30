@@ -1,10 +1,6 @@
 #include <iostream>
-#include <vector>
-#include <fstream>
-#include <cfloat>
 #include <string>
 #include <assert.h>
-#include <cstdint>
 
 #include "Types.h"
 #include "Core.h"
@@ -118,9 +114,6 @@ namespace EventSystem
 
     const bool System::isActive() const
     {
-        // MASSIVE TODO: SYSTEM IS NOT DEFINED IN SYSTEM
-        /* if (!system)
-            return false; */
         return active;
     }
 
