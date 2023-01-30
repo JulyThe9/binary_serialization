@@ -208,7 +208,7 @@ namespace EventSystem
 
 using namespace EventSystem;
 
-int main(int argc, char* argv[]) // equivalent to char** argv
+int main(int argc, char *argv[])
 {
     (void)argc;
     (void)argv;
