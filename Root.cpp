@@ -21,7 +21,7 @@ namespace ObjectModel
         nameLength = (int16_t)name.length();
         size += nameLength;
     }
-    
+
     int32_t Root::getSize()
     {
         return size;
